@@ -1,0 +1,18 @@
+### Variables
+@hostname = localhost
+@port = 8080
+@host = {{hostname}}:{{port}}
+
+### Crear un nuevo post
+POST http://{{host}}/posts
+Content-Type: application/json
+
+{
+    "title": "Mi primer post en Go",
+    "content": "Este es el contenido del blog usando MongoDB v2",
+    "author": "Tu Nombre"
+}
+
+### Obtener todos los posts
+GET http://{{host}}/posts
+Accept: application/json

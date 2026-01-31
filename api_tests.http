@@ -3,10 +3,12 @@
 @port = 8080
 @host = {{hostname}}:{{port}}
 @post_id = 69654bccb9b2c974e8365a74
+@delete_id = 697e479bf4df733f180c0b5d
 
 ### Crear un nuevo post
 POST http://{{host}}/posts
 Content-Type: application/json
+
 {
     "title": "Mi primer post en Go",
     "content": "Este es el contenido del blog usando MongoDB v2",
@@ -21,10 +23,14 @@ Accept: application/json
 GET http://{{host}}/posts/{{post_id}}
 Accept: application/json
 
-###Obetener un post por nombre
+###Obetener posts con nombre
 GET http://{{host}}/posts?title=Mi%20primer%20post%20en%20Go
 Accept: application/json
 
 ### Eliminar todos los posts
 DELETE http://{{host}}/posts
+Accept: application/json
+
+### Eliminar un post por ID
+DELETE http://{{host}}/posts/{{delete_id}}
 Accept: application/json

@@ -60,17 +60,10 @@ func RetreiveAllPosts(c *gin.Context) {
 
 func GetPostByID(c *gin.Context) {
 
-	id := c.Param("id")
-
-	ctx , cancel:= context.WithTimeout(c.Request.Context(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	idObj, err := bson.ObjectIDFromHex(id)
-
-	if err != nil{
-		error := fmt.Sprintf("fallo al procesar id: %s", err)
-		c.JSON(500, gin.H{"error": error})
-	}
+	idObj := getObjectId(c)
 
 	res := db.Client.Database("Blog_DB").Collection("posts").FindOne(ctx, bson.M{"_id": idObj})
 	if err := res.Err(); err != nil {
@@ -80,7 +73,7 @@ func GetPostByID(c *gin.Context) {
 	}
 
 	var post format.PostFormat
-	err = res.Decode(&post)
+	var err = res.Decode(&post)
 
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Error al procesar las publicaciones"})
@@ -90,6 +83,7 @@ func GetPostByID(c *gin.Context) {
 
 	c.JSON(200, gin.H{"posts": post})
 }
+
 
 func SearchPosts(c *gin.Context){
 	titleQuery 		  := c.Query("title")
@@ -132,4 +126,47 @@ func SearchPosts(c *gin.Context){
 
 
 
+}
+
+func DeleteByID(c *gin.Context){
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
+	defer cancel()
+
+	idObj := getObjectId(c)
+
+	res, err := db.Client.Database("Blog_DB").Collection("posts").DeleteOne(ctx, bson.M{"_id": idObj})
+
+	if err != nil {
+		error := fmt.Sprintf("Error al borrar post de id %s, con error \n %d", &idObj, &err)
+		c.JSON(500, gin.H{"error": error})
+	}
+
+	if res.DeletedCount == 0 {
+		mensaje := fmt.Sprintf("No existe post con id %s", &idObj)
+		c.JSON(200, gin.H{"mensaje":mensaje})
+	}
+
+	mensaje := fmt.Sprintf("Eliminado con exito al post de id %s", &idObj)
+	c.JSON(200, gin.H{"message": mensaje})
+}
+
+func DeleteAllPosts(c *gin.Context) {
+	err := db.EmptyDB()
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Error al eliminar todas las publicaciones"})
+		return
+	}
+	c.JSON(200, gin.H{"message": "Todas las publicaciones han sido eliminadas exitosamente"})
+}
+
+func getObjectId(c *gin.Context) (bson.ObjectID) {
+	id := c.Param("id")
+
+	idObj, err := bson.ObjectIDFromHex(id)
+
+	if err != nil {
+		error := fmt.Sprintf("fallo al procesar id: %s", err)
+		c.JSON(500, gin.H{"error": error})
+	}
+	return idObj
 }

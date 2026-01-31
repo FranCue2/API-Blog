@@ -144,6 +144,7 @@ func DeleteByID(c *gin.Context){
 	if res.DeletedCount == 0 {
 		mensaje := fmt.Sprintf("No existe post con id %s", &idObj)
 		c.JSON(200, gin.H{"mensaje":mensaje})
+		return
 	}
 
 	mensaje := fmt.Sprintf("Eliminado con exito al post de id %s", &idObj)

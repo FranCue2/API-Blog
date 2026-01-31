@@ -3,7 +3,7 @@
 @port = 8080
 @host = {{hostname}}:{{port}}
 @post_id = 69654bccb9b2c974e8365a74
-@delete_id = 697e479bf4df733f180c0b5d
+@delete_id = 697e5b5bbbc64501b97b0843
 
 ### Crear un nuevo post
 POST http://{{host}}/posts
@@ -24,7 +24,11 @@ GET http://{{host}}/posts/{{post_id}}
 Accept: application/json
 
 ###Obetener posts con nombre
-GET http://{{host}}/posts?title=Mi%20primer%20post%20en%20Go
+GET http://{{host}}/posts/search?title=Mi%20primer%20post%20en%20Go
+Accept: application/json
+
+###Obtener posts con author
+GET http://{{host}}/posts/search?author=Tu%20Nombre
 Accept: application/json
 
 ### Eliminar todos los posts

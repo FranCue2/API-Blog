@@ -35,3 +35,16 @@ func ConnectDB() {
 
 	fmt.Println("✅ Conectado a MongoDB exitosamente")
 }
+
+func EmptyDB() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	err := Client.Database("Blog_DB").Drop(ctx)
+	if err != nil {
+		return err
+	}
+	
+	fmt.Println("🗑️  Base de datos vaciada exitosamente")
+	return nil
+}

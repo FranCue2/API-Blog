@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,4 +56,80 @@ func RetreiveAllPosts(c *gin.Context) {
 
 
 	c.JSON(200, gin.H{"posts": posts})
+}
+
+func GetPostByID(c *gin.Context) {
+
+	id := c.Param("id")
+
+	ctx , cancel:= context.WithTimeout(c.Request.Context(), 10*time.Second)
+	defer cancel()
+
+	idObj, err := bson.ObjectIDFromHex(id)
+
+	if err != nil{
+		error := fmt.Sprintf("fallo al procesar id: %s", err)
+		c.JSON(500, gin.H{"error": error})
+	}
+
+	res := db.Client.Database("Blog_DB").Collection("posts").FindOne(ctx, bson.M{"_id": idObj})
+	if err := res.Err(); err != nil {
+		//c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
+		c.JSON(500, gin.H{"error": res.Err().Error()})
+		return
+	}
+
+	var post format.PostFormat
+	err = res.Decode(&post)
+
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Error al procesar las publicaciones"})
+		return
+	}
+
+
+	c.JSON(200, gin.H{"posts": post})
+}
+
+func SearchPosts(c *gin.Context){
+	titleQuery 		  := c.Query("title")
+	authorQuery		  := c.Query("author")
+	published_atQuery := c.Query("published_at")
+
+	filter := bson.M{
+        "title": bson.M{
+            "$regex": titleQuery, 
+            "$options": "i",
+        },
+		"author": bson.M{
+            "$regex": authorQuery, 
+            "$options": "i",
+        },
+		"published_at": bson.M{
+			"$regex":published_atQuery,
+			"$options": "i",
+		},
+    }
+
+	ctx , cancel:= context.WithTimeout(c.Request.Context(), 10*time.Second)
+	defer cancel()
+
+	res, err := db.Client.Database("Blog_DB").Collection("posts").Find(ctx, filter)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
+		return
+	}
+
+	posts := []format.PostFormat{}
+
+	if err := res.All(c.Request.Context(), &posts); err != nil {
+		c.JSON(500, gin.H{"error": "Error al procesar las publicaciones"})
+		return
+	}
+
+
+	c.JSON(200, gin.H{"posts": posts})
+
+
+
 }

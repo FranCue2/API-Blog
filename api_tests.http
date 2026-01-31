@@ -2,11 +2,11 @@
 @hostname = localhost
 @port = 8080
 @host = {{hostname}}:{{port}}
+@post_id = 69654bccb9b2c974e8365a74
 
 ### Crear un nuevo post
 POST http://{{host}}/posts
 Content-Type: application/json
-
 {
     "title": "Mi primer post en Go",
     "content": "Este es el contenido del blog usando MongoDB v2",
@@ -15,4 +15,16 @@ Content-Type: application/json
 
 ### Obtener todos los posts
 GET http://{{host}}/posts
+Accept: application/json
+
+### Obtener un post por ID
+GET http://{{host}}/posts/{{post_id}}
+Accept: application/json
+
+###Obetener un post por nombre
+GET http://{{host}}/posts?title=Mi%20primer%20post%20en%20Go
+Accept: application/json
+
+### Eliminar todos los posts
+DELETE http://{{host}}/posts
 Accept: application/json

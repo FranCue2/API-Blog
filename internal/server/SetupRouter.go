@@ -12,5 +12,11 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/posts", handlers.RetreiveAllPosts)
 
+	r.GET("/posts/:id", handlers.GetPostByID)
+
+	r.GET("/posts/search", handlers.SearchPosts)
+
+	r.DELETE("/posts", handlers.DeleteAllPosts)
+
 	return r
 }

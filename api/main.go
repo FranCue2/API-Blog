@@ -16,7 +16,7 @@ func main() {
         log.Fatal("Error cargando el archivo .env con error: ", err)
     }
 
-	db.ConnectDB()
+	db.InitDB()
 	r := server.SetupRouter()
 
 	r.Run("Localhost:8080")

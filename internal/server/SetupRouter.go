@@ -20,5 +20,9 @@ func SetupRouter() *gin.Engine {
 
 	r.DELETE("/posts/:id", handlers.DeleteByID)
 
+	r.GET("/regiser", handlers.RegisterUser)
+
+	r.GET("/users", handlers.GetUsers)
+
 	return r
 }

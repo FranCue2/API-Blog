@@ -2,7 +2,7 @@
 @hostname = localhost
 @port = 8080
 @host = {{hostname}}:{{port}}
-@post_id = 69654bccb9b2c974e8365a74
+@post_id = 697e5b5bbbc64501b97b0843
 @delete_id = 697e5b5bbbc64501b97b0843
 
 ### Crear un nuevo post
@@ -37,4 +37,12 @@ Accept: application/json
 
 ### Eliminar un post por ID
 DELETE http://{{host}}/posts/{{delete_id}}
+Accept: application/json
+
+### Nuevo Usuario
+GET http://{{host}}/regiser?email=usuario%40correo.com&password=tu_contrase%C3%B1a
+Content-Type: application/json
+
+### Obtener Usuarios
+GET http://{{host}}/users
 Accept: application/json

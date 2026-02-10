@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -67,6 +66,7 @@ func createUniqueIndexes() {
 }
 
 func EmptyCollection(collectionName string) error {
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -94,10 +94,25 @@ func FindUserCredentialsByEmail(ctx context.Context, email string) (*models.User
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return nil, errors.New("usuario no existe")
+			return nil, ErrUserDoesNotExist
 		}
 		return nil, err
 	}
 
 	return &userCred, nil
 }
+
+func InsertCredentials(ctx context.Context, creds *models.UserCredentials) (*mongo.InsertOneResult, error) {
+	res, err := GetCollection(constants.AuthCredentialsCollections).InsertOne(ctx, creds)
+
+	if err != nil {
+		if mongo.IsDuplicateKeyError(err) {
+			err = ErrUserAlreadyExists
+		}
+		return nil, err
+	}
+
+	return res, nil
+}
+
+

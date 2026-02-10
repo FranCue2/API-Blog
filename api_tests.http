@@ -58,10 +58,6 @@ GET http://{{host}}/api/v1/admin/users
 Content-Type: application/json
 Authorization: {{admin_token}}
 
-### Crear usuario Admin
-POST http://{{host}}/api/v1/create-admin
-Accept: application/json
-
 ### Login Admin
 POST http://{{host}}/api/v1/login
 Content-Type: application/json

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -37,30 +38,19 @@ func RegisterUser(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	passwordHash, err := auth.EncryptPassword(input.Password)
+	err = auth.RegisterUser(ctx, input.Email, input.Password)
 
 	if err != nil {
-		error := "Fallo al generar contrasena"
-		c.JSON(500, gin.H{"error": error})
-		return
-	}
+		switch {
+			case errors.Is(err, db.ErrUserAlreadyExists):
+				c.JSON(409, gin.H{"error":"Ese email ya esta en uso"})
 
-	creds := models.UserCredentials{
-		Role:         models.RoleUser,
-		Email:        input.Email,
-		PasswordHash: passwordHash,
-		TOTPEnabled:  false,
-	}
+			case errors.Is(err, auth.ErrFailedToEncryptPassword):
+				c.JSON(500, gin.H{"error":"Error interno de seguridad"})
 
-	_, err = db.GetCollection(constants.AuthCredentialsCollections).InsertOne(ctx, creds)
-
-	if err != nil {
-		var error = fmt.Sprintf("error desconocido al guardar %v", err)
-		if mongo.IsDuplicateKeyError(err) {
-			error = "este email ya esta en uso"
+			default:
+				c.JSON(500, gin.H{"error":"Error interno del servidor"})
 		}
-
-		c.JSON(500, gin.H{"error": error})
 		return
 	}
 

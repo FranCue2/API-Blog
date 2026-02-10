@@ -30,8 +30,6 @@ func setupPublicRoutes(r *gin.Engine) {
 	
 		public.POST("/regiser", handlers.RegisterUser)
 
-		public.POST("/create-admin", handlers.CreateAdmin)
-
 		public.POST("/login", handlers.Login)
 	}
 }

@@ -2,10 +2,13 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"time"
 
+	"github.com/tu-usuario/blog-api/internal/constants"
+	"github.com/tu-usuario/blog-api/internal/models"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -78,4 +81,22 @@ func EmptyDB() error {
 func GetCollection(collectionName string) *mongo.Collection{
 	coll := Client.Database("Blog_DB").Collection(collectionName)
 	return coll
+}
+
+func FindUserCredentialsByEmail(ctx context.Context, email string) (*models.UserCredentials, error){
+
+	filter:= bson.M{"email":email}
+
+	var userCred models.UserCredentials
+
+	err := GetCollection(constants.AuthCredentials).FindOne(ctx,filter).Decode(&userCred)
+
+	if err!=nil{
+		if err == mongo.ErrNoDocuments{
+			return nil, errors.New("usuario no existe")
+		}
+		return nil, err
+	}
+
+	return &userCred, nil
 }

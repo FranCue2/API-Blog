@@ -12,12 +12,12 @@ import (
 func main() {
 
 	err := godotenv.Load()
-    if err != nil {
-        log.Fatal("Error cargando el archivo .env con error: ", err)
-    }
+	if err != nil {
+		log.Fatal("Error cargando el archivo .env con error: ", err)
+	}
 
 	db.InitDB()
-	r := server.SetupRouter()
+	r := server.SetupRoutes()
 
 	r.Run("Localhost:8080")
 	fmt.Printf("(\"Servidor corriendo en http://localhost:8080\")/n")

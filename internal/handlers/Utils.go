@@ -7,6 +7,11 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
+
+func getUserName(c *gin.Context) string{
+	return c.GetString("userID")
+}
+
 func getObjectId(c *gin.Context) (bson.ObjectID) {
 	id := c.Param("id")
 

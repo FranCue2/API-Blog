@@ -4,10 +4,13 @@
 @host = {{hostname}}:{{port}}
 @post_id = 697e5b5bbbc64501b97b0843
 @delete_id = 697e5b5bbbc64501b97b0843
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThhNDU2NjcwZWUzNzBkNTMwYzEzOGMiLCJleHAiOjE3NzA3NTY3MzAsImlhdCI6MTc3MDY3MDMzMH0.M0YZzostlXgqEstiEb84mt_x4T4ktyD7kYVR4zEAXy8
+@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNGRhM2QwODc4MDAwZDdlMGMyZjEiLCJleHAiOjE3NzA4MjM1NjMsImlhdCI6MTc3MDczNzE2M30.wmdgAstHdhO8nE2WGO_wgizv10v25mmWxkqkpZAp7E0
 
 ### Crear un nuevo post
-POST http://{{host}}/posts
+POST http://{{host}}/api/v1/posts
 Content-Type: application/json
+Authorization: {{user_token}}
 
 {
     "title": "Mi primer post en Go",
@@ -16,33 +19,64 @@ Content-Type: application/json
 }
 
 ### Obtener todos los posts
-GET http://{{host}}/posts
+GET http://{{host}}/api/v1/posts
 Accept: application/json
 
 ### Obtener un post por ID
-GET http://{{host}}/posts/{{post_id}}
+GET http://{{host}}/api/v1/posts/{{post_id}}
 Accept: application/json
 
 ###Obetener posts con nombre
-GET http://{{host}}/posts/search?title=Mi%20primer%20post%20en%20Go
+GET http://{{host}}/api/v1/posts/search?title=Mi%20primer%20post%20en%20Go
 Accept: application/json
 
 ###Obtener posts con author
-GET http://{{host}}/posts/search?author=Tu%20Nombre
+GET http://{{host}}/api/v1/posts/search?author=Tu%20Nombre
 Accept: application/json
 
 ### Eliminar todos los posts
-DELETE http://{{host}}/posts
+DELETE http://{{host}}/api/v1/admin/posts
 Accept: application/json
+Authorization: {{admin_token}}
 
 ### Eliminar un post por ID
-DELETE http://{{host}}/posts/{{delete_id}}
+DELETE http://{{host}}/api/v1/admin/posts/{{delete_id}}
 Accept: application/json
+Authorization: {{admin_token}}
 
 ### Nuevo Usuario
-GET http://{{host}}/regiser?email=usuario%40correo.com&password=tu_contrase%C3%B1a
+POST http://{{host}}/api/v1/regiser
 Content-Type: application/json
 
-### Obtener Usuarios
-GET http://{{host}}/users
+{
+    "email":    "usuario@correo.com",
+    "password": "tu_contraseña"
+}
+
+### Obtener Credenciales de Usuario
+GET http://{{host}}/api/v1/admin/users
+Content-Type: application/json
+Authorization: {{admin_token}}
+
+### Crear usuario Admin
+POST http://{{host}}/api/v1/create-admin
 Accept: application/json
+
+### Login Admin
+POST http://{{host}}/api/v1/login
+Content-Type: application/json
+Authorization: {{admin_token}}
+
+{
+    "email":    "admin@example.com",
+    "password": "admin"
+}
+
+### Login Usuario
+POST http://{{host}}/api/v1/login
+Content-Type: application/json
+
+{
+    "email":    "usuario@correo.com",
+    "password": "tu_contraseña"
+}

@@ -9,6 +9,7 @@ import (
 	db "github.com/tu-usuario/blog-api/internal/database"
 	"github.com/tu-usuario/blog-api/internal/models"
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"github.com/tu-usuario/blog-api/internal/constants"
 )
 
 func CreatePost(c *gin.Context) {
@@ -18,10 +19,14 @@ func CreatePost(c *gin.Context) {
 		c.JSON(400, gin.H{"error": "Datos inválidos"})
 		return
 	}
+
+	post.Author = getUserName(c) //Cargamos el nombre del usuario que creo el post
+	post.PublishedAt = time.Now()
+
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	res, err := db.GetCollection("posts").InsertOne(ctx, post)
+	res, err := db.GetCollection(constants.Posts).InsertOne(ctx, post)
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Error al crear la publicación"})
 		return
@@ -40,7 +45,7 @@ func RetreiveAllPosts(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	res, err := db.GetCollection("posts").Find(ctx, bson.M{})
+	res, err := db.GetCollection(constants.Posts).Find(ctx, bson.M{})
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
 		return
@@ -63,7 +68,7 @@ func GetPostByID(c *gin.Context) {
 
 	idObj := getObjectId(c)
 
-	res := db.GetCollection("posts").FindOne(ctx, bson.M{"_id": idObj})
+	res := db.GetCollection(constants.Posts).FindOne(ctx, bson.M{"_id": idObj})
 	if err := res.Err(); err != nil {
 		//c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
 		c.JSON(500, gin.H{"error": res.Err().Error()})
@@ -104,7 +109,7 @@ func SearchPosts(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	res, err := db.GetCollection("posts").Find(ctx, filter)
+	res, err := db.GetCollection(constants.Posts).Find(ctx, filter)
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
 		return
@@ -127,7 +132,7 @@ func DeleteByID(c *gin.Context) {
 
 	idObj := getObjectId(c)
 
-	res, err := db.GetCollection("posts").DeleteOne(ctx, bson.M{"_id": idObj})
+	res, err := db.GetCollection(constants.Posts).DeleteOne(ctx, bson.M{"_id": idObj})
 
 	if err != nil {
 		error := fmt.Sprintf("Error al borrar post de id %s, con error \n %d", &idObj, &err)

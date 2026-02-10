@@ -38,7 +38,7 @@ func CreatePost(c *gin.Context) {
 		return
 	}
 
-	c.JSON(201, gin.H{"message": "Publicación" + post.Title + "creada exitosamente, con id:" + id.Hex()})
+	c.JSON(201, gin.H{"message": "Publicación " + post.Title + " creada exitosamente", "id:" : id.Hex()})
 }
 
 func RetreiveAllPosts(c *gin.Context) {

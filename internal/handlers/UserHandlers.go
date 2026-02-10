@@ -21,13 +21,13 @@ func GetUsers(c *gin.Context) {
 		return
 	}
 
-	posts := []models.UserCredentials{}
+	usersCreds := []models.UserCredentials{}
 
-	if err := res.All(c.Request.Context(), &posts); err != nil {
+	if err := res.All(c.Request.Context(), &usersCreds); err != nil {
 		c.JSON(500, gin.H{"error": "Error al procesar las publicaciones"})
 		return
 	}
 
-	c.JSON(200, gin.H{"posts": posts})
+	c.JSON(200, gin.H{"credentials": usersCreds})
 }
 

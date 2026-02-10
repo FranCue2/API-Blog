@@ -1,6 +1,6 @@
 package constants
 
-const(
-	Posts = "posts"
-	AuthCredentials = "auth_credentials"
+const (
+	PostsCollections           = "posts"
+	AuthCredentialsCollections = "auth_credentials"
 )

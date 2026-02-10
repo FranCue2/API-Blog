@@ -13,15 +13,16 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-type loginInput struct{
-	Email string `json:"email" binding:"required,email"`
+type loginInput struct {
+	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
 
-type registerInput struct{
-	Email string `json:"email" binding:"required,email"`
+type registerInput struct {
+	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
+
 func RegisterUser(c *gin.Context) {
 
 	var input registerInput
@@ -29,7 +30,7 @@ func RegisterUser(c *gin.Context) {
 	err := c.ShouldBindBodyWithJSON(&input)
 
 	if err != nil {
-		c.AbortWithStatusJSON(400, gin.H{"error":"Not good enough information", "message":err.Error()})
+		c.AbortWithStatusJSON(400, gin.H{"error": "Not good enough information", "message": err.Error()})
 		return
 	}
 
@@ -51,7 +52,7 @@ func RegisterUser(c *gin.Context) {
 		TOTPEnabled:  false,
 	}
 
-	_, err = db.GetCollection(constants.AuthCredentials).InsertOne(ctx, creds)
+	_, err = db.GetCollection(constants.AuthCredentialsCollections).InsertOne(ctx, creds)
 
 	if err != nil {
 		var error = fmt.Sprintf("error desconocido al guardar %v", err)
@@ -66,10 +67,10 @@ func RegisterUser(c *gin.Context) {
 	c.JSON(200, "Creado usuario con exito")
 }
 
-func Login(c *gin.Context){
+func Login(c *gin.Context) {
 	var input loginInput
-	if err:= c.ShouldBindBodyWithJSON(&input); err!=nil{
-		c.JSON(400, gin.H{"error":"Datos de entrada invalidos: Email y Contrasena obligatorios"})
+	if err := c.ShouldBindBodyWithJSON(&input); err != nil {
+		c.JSON(400, gin.H{"error": "Datos de entrada invalidos: Email y Contrasena obligatorios"})
 		return
 	}
 
@@ -78,12 +79,12 @@ func Login(c *gin.Context){
 
 	token, err := auth.Login(ctx, input.Email, input.Password)
 
-	if err != nil{
-		c.JSON(401, gin.H{"error":"Email y/o Conreasena equivocada", "mensage":err.Error()})
+	if err != nil {
+		c.JSON(401, gin.H{"error": "Email y/o Conreasena equivocada", "mensage": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{"token":token})
+	c.JSON(200, gin.H{"token": token})
 
 }
 
@@ -101,13 +102,13 @@ func CreateAdmin(c *gin.Context) {
 	}
 
 	creds := models.UserCredentials{
-		Email: "admin@example.com",
-		Role: models.RoleAdmin,
+		Email:        "admin@example.com",
+		Role:         models.RoleAdmin,
 		PasswordHash: passwordHash,
-		TOTPEnabled: false,
+		TOTPEnabled:  false,
 	}
 
-	_, err = db.GetCollection(constants.AuthCredentials).InsertOne(ctx, creds)
+	_, err = db.GetCollection(constants.AuthCredentialsCollections).InsertOne(ctx, creds)
 
 	if err != nil {
 		var error = fmt.Sprintf("error desconocido al guardar %v", err)

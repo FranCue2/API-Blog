@@ -15,7 +15,7 @@ func GetUsers(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	res, err := db.GetCollection(constants.AuthCredentials).Find(ctx, bson.M{})
+	res, err := db.GetCollection(constants.AuthCredentialsCollections).Find(ctx, bson.M{})
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
 		return
@@ -30,4 +30,3 @@ func GetUsers(c *gin.Context) {
 
 	c.JSON(200, gin.H{"credentials": usersCreds})
 }
-

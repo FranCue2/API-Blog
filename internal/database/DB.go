@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"fmt"
+
 	"os"
 	"time"
 
@@ -15,10 +15,10 @@ import (
 
 var Client *mongo.Client
 
-func InitDB() error{
-	err:= connectDB()
+func InitDB() error {
+	err := connectDB()
 
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
@@ -27,7 +27,7 @@ func InitDB() error{
 	return err
 }
 
-func connectDB() error{
+func connectDB() error {
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	uri := os.Getenv("MONGO_URI")
@@ -81,8 +81,6 @@ func EmptyCollection(collectionName string) error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("🗑️  Base de datos vaciada exitosamente")
 	return nil
 }
 
@@ -121,5 +119,3 @@ func InsertCredentials(ctx context.Context, creds *models.UserCredentials) (*mon
 
 	return res, nil
 }
-
-

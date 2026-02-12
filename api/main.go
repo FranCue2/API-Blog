@@ -42,7 +42,7 @@ func initDB(){
 		switch{
 			case errors.Is(err, db.ErrFailedToConnectToDataBase):
 				log.Fatal("❌ No se pudo conectar a MongoDB")
-			case errors.Is(err, db.ErrFailledToCreateIndexis):
+			case errors.Is(err, db.ErrFailedToCreateIndexis):
 				log.Fatal("❌ Failed making emails indexis")
 			default:
 				log.Fatalf("❌ Unknown error: %v /n", err)

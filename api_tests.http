@@ -2,10 +2,10 @@
 @hostname = localhost
 @port = 8080
 @host = {{hostname}}:{{port}}
-@post_id = 697e5b5bbbc64501b97b0843
-@delete_id = 697e5b5bbbc64501b97b0843
-@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNGY4ZjFmYTAyN2M5YjMzNzBiNTYiLCJleHAiOjE3NzA4MjM5NTUsImlhdCI6MTc3MDczNzU1NX0.UOMASNDdqdEYpO0t3k-hDtxtiNds9hotCWaCO3EvTzo
-@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNGRhM2QwODc4MDAwZDdlMGMyZjEiLCJleHAiOjE3NzA4MjM1NjMsImlhdCI6MTc3MDczNzE2M30.wmdgAstHdhO8nE2WGO_wgizv10v25mmWxkqkpZAp7E0
+@post_id = 698e27cc1cbbdb505d5618b7
+@delete_id = 698e27cc1cbbdb505d5618b7
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4YjQyNTkwNjQzMTFjMGNlOWEiLCJleHAiOjE3NzA5MjU2NzksImlhdCI6MTc3MDkyMzg3OX0.xryy7sXxvjfrqhF9j0bZzkqxoRJ_4On7Q5XHt6ZMhZ0
+@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4NjQyNTkwNjQzMTFjMGNlOTkiLCJleHAiOjE3NzA5MjU3NjAsImlhdCI6MTc3MDkyMzk2MH0.eGfJoot5LpWjApVSA_T-dUu8rWPoeXLLNCJUmGXtU7Q
 
 ### Crear un nuevo post
 POST http://{{host}}/api/v1/posts
@@ -31,7 +31,7 @@ GET http://{{host}}/api/v1/posts/search?title=Mi%20primer%20post%20en%20Go
 Accept: application/json
 
 ###Obtener posts con author
-GET http://{{host}}/api/v1/posts/search?author=Tu%20Nombre
+GET http://{{host}}/api/v1/posts/search?author=698b51864259064311c0ce99
 Accept: application/json
 
 ### Eliminar todos los posts

@@ -15,12 +15,19 @@ import (
 
 var Client *mongo.Client
 
-func InitDB() {
-	connectDB()
-	createUniqueIndexes()
+func InitDB() error{
+	err:= connectDB()
+
+	if err != nil{
+		return err
+	}
+
+	err = createUniqueIndexes()
+
+	return err
 }
 
-func connectDB() {
+func connectDB() error{
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	uri := os.Getenv("MONGO_URI")
@@ -30,7 +37,7 @@ func connectDB() {
 
 	tmp, err := mongo.Connect(opts)
 	if err != nil {
-		panic(err)
+		return ErrFailedToConnectToDataBase
 	}
 
 	Client = tmp
@@ -39,13 +46,13 @@ func connectDB() {
 	defer cancel()
 
 	if err := Client.Ping(ctx, nil); err != nil {
-		panic(err)
+		return ErrFailedToConnectToDataBase
 	}
 
-	fmt.Println("✅ Conectado a MongoDB exitosamente")
+	return nil
 }
 
-func createUniqueIndexes() {
+func createUniqueIndexes() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -58,10 +65,10 @@ func createUniqueIndexes() {
 
 	_, err := coll.Indexes().CreateOne(ctx, indexModel)
 	if err != nil {
-		fmt.Printf("❌ Error creando indices unicos para los emails: %s", err)
+		return ErrFailledToCreateIndexis
 	}
 
-	fmt.Println("✅ Indice unico para los emails")
+	return nil
 
 }
 

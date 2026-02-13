@@ -41,7 +41,7 @@ func setUpServer() {
 func loadEnv() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("❌ Error cargando el archivo .env con error: ", err)
+		log.Println("⚠️ Error cargando el archivo .env con error: ", err)
 	}
 }
 

@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/tu-usuario/blog-api/internal/constants"
 	"github.com/tu-usuario/blog-api/internal/models"
@@ -69,7 +68,6 @@ func FindAllPosts(ctx context.Context) (*[]models.PostModel, error) {
 }
 
 func findOnePostWithFilter(ctx context.Context, filter bson.M) (*models.PostModel, error) {
-	fmt.Printf("filter: %v\n", filter)
 	
 	posts := models.PostModel{}
 	err := findOneWithFilterFromColletionOfType(ctx, filter, constants.PostsCollections, &posts)

@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"errors"
 
 	"github.com/tu-usuario/blog-api/internal/constants"
 	"github.com/tu-usuario/blog-api/internal/models"
@@ -9,16 +10,14 @@ import (
 )
 
 func InsertPost(ctx context.Context, post models.PostModel) (bson.ObjectID, error) {
-	res, err := GetCollection(constants.PostsCollections).InsertOne(ctx, post)
-
+	id, err := insertOneIntoCollection(ctx, post, constants.PostsCollections)
 	if err != nil {
-		return bson.NilObjectID, ErrFailedToInsertPost
-	}
-
-	id, ok := res.InsertedID.(bson.ObjectID)
-
-	if !ok {
-		return bson.NilObjectID, ErrFailedToObtainID
+		switch{
+		case errors.Is(err, ErrFailedToInsert):
+			return bson.NilObjectID, ErrFailedToInsertPost
+		default:
+			return bson.NilObjectID, err
+		}
 	}
 
 	return id, nil
@@ -61,35 +60,38 @@ func FindAllPosts(ctx context.Context) (*[]models.PostModel, error) {
 }
 
 func findOnePostWithFilter(ctx context.Context, filter bson.M) (*models.PostModel, error) {
-	res := GetCollection(constants.PostsCollections).FindOne(ctx, filter)
+	posts := models.PostModel{}
+	err := findOneWithFilterFromColletionOfType(ctx, filter, constants.PostsCollections, &posts)
 
-	if err := res.Err(); err != nil {
-		return nil, ErrFailedToFindPosts
+	if err != nil {
+		switch{
+		case errors.Is(err, ErrFailedToFind):
+			return nil, ErrFailedToFindPosts
+		case errors.Is(err, ErrFailedToProccess):
+			return nil, ErrFailedToProccessPosts
+		default:
+			return nil, err
+		}
 	}
-
-	var post models.PostModel
-
-	if err := res.Decode(&post); err != nil {
-		return nil, ErrFailedToProccessPosts
-	}
-
-	return &post, nil
+	return &posts, nil
 
 }
 
 func findPostsWithFilter(ctx context.Context, filter bson.M) (*[]models.PostModel, error) {
-	res, err := GetCollection(constants.PostsCollections).Find(ctx, filter)
-
-	if err != nil {
-		return nil, ErrFailedToFindPosts
-	}
 
 	posts := []models.PostModel{}
+	err := findWithFilterFromCollectionOfType(ctx, filter, constants.PostsCollections, &posts)
 
-	if err := res.All(ctx, &posts); err != nil {
-		return nil, ErrFailedToProccessPosts
+	if err != nil {
+		switch{
+		case errors.Is(err, ErrFailedToFind):
+			return nil, ErrFailedToFindPosts
+		case errors.Is(err, ErrFailedToProccess):
+			return nil, ErrFailedToProccessPosts
+		default:
+			return nil, err
+		}
 	}
-
 	return &posts, nil
 }
 
@@ -108,7 +110,7 @@ func EmptyPosts() error {
 
 func deleteOnePostWithFilter(ctx context.Context, filter bson.M) error {
 
-	_, err := GetCollection(constants.PostsCollections).DeleteOne(ctx, filter)
+	err := deleteOneWithFilterFromCollection(ctx, filter, constants.PostsCollections)
 
 	if err != nil {
 		return ErrFailedToDeleteOnePost
@@ -116,3 +118,4 @@ func deleteOnePostWithFilter(ctx context.Context, filter bson.M) error {
 
 	return nil
 }
+

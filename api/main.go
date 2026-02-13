@@ -20,9 +20,21 @@ func main() {
 	initDB()
 	seedAdmin()
 
+	setUpServer()
+}
+
+func setUpServer() {
 	r := server.SetupRoutes()
 
-	r.Run("Localhost:8080")
+	port := os.Getenv("PORT")
+
+	host := os.Getenv("HOST")
+
+	if port == "" {
+		port = "8080"
+	}
+
+	r.Run(host + ":" + port)
 	fmt.Printf("(\"Servidor corriendo en http://localhost:8080\")/n")
 }
 

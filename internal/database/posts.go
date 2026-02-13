@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/tu-usuario/blog-api/internal/constants"
 	"github.com/tu-usuario/blog-api/internal/models"
@@ -33,19 +34,27 @@ func FindPostWithID(ctx context.Context, id string) (*models.PostModel, error) {
 }
 
 func FindPostsWithQuery(ctx context.Context, titleQuery string, authorQuery string, published_atQuery string) (*[]models.PostModel, error) {
-	filter := bson.M{
-		"title": bson.M{
+	filter := bson.M{}
+
+	if titleQuery != ""{
+		filter["title"] = bson.M{
 			"$regex":   titleQuery,
 			"$options": "i",
-		},
-		"author": bson.M{
+		}
+	}
+
+	if authorQuery != ""{
+		filter["author"] = bson.M{
 			"$regex":   authorQuery,
 			"$options": "i",
-		},
-		"published_at": bson.M{
+		}
+	}
+
+	if published_atQuery != ""{
+		filter["published_at"] = bson.M{
 			"$regex":   published_atQuery,
 			"$options": "i",
-		},
+		}
 	}
 
 	return findPostsWithFilter(ctx, filter)
@@ -60,6 +69,8 @@ func FindAllPosts(ctx context.Context) (*[]models.PostModel, error) {
 }
 
 func findOnePostWithFilter(ctx context.Context, filter bson.M) (*models.PostModel, error) {
+	fmt.Printf("filter: %v\n", filter)
+	
 	posts := models.PostModel{}
 	err := findOneWithFilterFromColletionOfType(ctx, filter, constants.PostsCollections, &posts)
 

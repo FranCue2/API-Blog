@@ -14,10 +14,9 @@ import (
 
 func SeedAdmin(email string, password string) error {
 
-	if email == "" || password == ""{
+	if email == "" || password == "" {
 		return ErrInvalidInput
 	}
-
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -80,7 +79,7 @@ func generateAndInsertCredentials(ctx context.Context, email string, password st
 		TOTPEnabled:  false,
 	}
 
-	_, err = db.InsertCredentials(ctx, &creds)
+	_, err = db.InsertUserCredentials(ctx, &creds)
 
 	if err != nil {
 		return err

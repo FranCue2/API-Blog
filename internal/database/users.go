@@ -27,11 +27,11 @@ func FindUserCredentialsByEmail(ctx context.Context, email string) (*models.User
 	return userCreds, nil
 }
 
-func InsertCredentials(ctx context.Context, creds *models.UserCredentials) (bson.ObjectID, error) {
-	
+func InsertUserCredentials(ctx context.Context, creds *models.UserCredentials) (bson.ObjectID, error) {
+
 	id, err := insertOneIntoCollection(ctx, creds, constants.AuthCredentialsCollections)
 	if err != nil {
-		switch{
+		switch {
 		case errors.Is(err, ErrFailedToInsert):
 			return bson.NilObjectID, ErrFailedToInsertUser
 		case errors.Is(err, ErrDuplicatedKey):
@@ -50,7 +50,7 @@ func FindAllUsers(ctx context.Context, c *gin.Context) (*[]models.UserCredential
 	err := findWithFilterFromCollectionOfType(ctx, bson.M{}, constants.AuthCredentialsCollections, &usersCreds)
 
 	if err != nil {
-		switch{
+		switch {
 		case errors.Is(err, ErrFailedToFind):
 			return nil, ErrFailedToFindUser
 		case errors.Is(err, ErrFailedToProccess):
@@ -63,12 +63,12 @@ func FindAllUsers(ctx context.Context, c *gin.Context) (*[]models.UserCredential
 	return &usersCreds, nil
 }
 
-func findOneUserWithFilter(ctx context.Context, filter bson.M) (*models.UserCredentials, error){
+func findOneUserWithFilter(ctx context.Context, filter bson.M) (*models.UserCredentials, error) {
 	var userCreds models.UserCredentials
 	err := findOneWithFilterFromColletionOfType(ctx, filter, constants.AuthCredentialsCollections, &userCreds)
 
 	if err != nil {
-		switch{
+		switch {
 		case errors.Is(err, ErrDoesNotExist):
 			err = ErrUserDoesNotExist
 		default:
@@ -79,5 +79,3 @@ func findOneUserWithFilter(ctx context.Context, filter bson.M) (*models.UserCred
 
 	return &userCreds, err
 }
-
-

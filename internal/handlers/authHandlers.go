@@ -3,15 +3,11 @@ package handlers
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/tu-usuario/blog-api/internal/auth"
-	"github.com/tu-usuario/blog-api/internal/constants"
 	db "github.com/tu-usuario/blog-api/internal/database"
-	"github.com/tu-usuario/blog-api/internal/models"
-	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type loginInput struct {
@@ -76,39 +72,4 @@ func Login(c *gin.Context) {
 
 	c.JSON(200, gin.H{"token": token})
 
-}
-
-func CreateAdmin(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
-	defer cancel()
-
-	password := "admin"
-	passwordHash, err := auth.EncryptPassword(password)
-
-	if err != nil {
-		error := "Fallo al generar contrasena"
-		c.JSON(500, gin.H{"error": error})
-		return
-	}
-
-	creds := models.UserCredentials{
-		Email:        "admin@example.com",
-		Role:         models.RoleAdmin,
-		PasswordHash: passwordHash,
-		TOTPEnabled:  false,
-	}
-
-	_, err = db.GetCollection(constants.AuthCredentialsCollections).InsertOne(ctx, creds)
-
-	if err != nil {
-		var error = fmt.Sprintf("error desconocido al guardar %v", err)
-		if mongo.IsDuplicateKeyError(err) {
-			error = "ya esta el admin"
-		}
-
-		c.JSON(500, gin.H{"error": error})
-		return
-	}
-
-	c.JSON(200, "Creado admin con exito")
 }

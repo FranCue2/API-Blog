@@ -1,7 +1,5 @@
 ### Variables
-@hostname = api-blog-zq6f.onrender.com
-@port = 10000
-@host = {{hostname}}
+@host = api-blog-zq6f.onrender.com
 @post_id = 698e668864d28fd219b22b54
 @delete_id = 698e27cc1cbbdb505d5618b7
 @admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4YjQyNTkwNjQzMTFjMGNlOWEiLCJleHAiOjE3NzA5NDE3MTAsImlhdCI6MTc3MDkzOTkxMH0.TdrKBjvmn18E-1dHe1SIo9ClKO65H7vk1vDw3j5LeAA

@@ -3,18 +3,36 @@
 @post_id = 698e668864d28fd219b22b54
 @delete_id = 698e27cc1cbbdb505d5618b7
 @admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4YjQyNTkwNjQzMTFjMGNlOWEiLCJleHAiOjE3NzA5NDE3MTAsImlhdCI6MTc3MDkzOTkxMH0.TdrKBjvmn18E-1dHe1SIo9ClKO65H7vk1vDw3j5LeAA
-
-@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzMyNjY3MjIsImlhdCI6MTc3MzI2NDkyMn0.q6rgSh4XQArnc0OMPiTj3aMSnjVH_nuGLYvOF8Q8dmA
-
-### Crear un nuevo post
-POST http://{{host}}/api/v1/posts
+### Login Admin
+POST http://{{host}}/api/v1/login
 Content-Type: application/json
-Authorization: {{user_token}}
+Authorization: {{admin_token}}
 
 {
-    "title": "Mi primer post en Go",
-    "content": "Este es el contenido del blog usando MongoDB v2",
-    "author": "Tu Nombre"
+    "email":    "admin@example.com",
+    "password": "admin"
+}
+
+
+@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzMyNjY3MjIsImlhdCI6MTc3MzI2NDkyMn0.q6rgSh4XQArnc0OMPiTj3aMSnjVH_nuGLYvOF8Q8dmA
+### Login Usuario
+POST http://{{host}}/api/v1/login
+Content-Type: application/json
+
+{
+    "email":    "usuario@correo.com",
+    "password": "tu_contraseña"
+}
+
+############################# Sin Logueo #################################
+
+### Nuevo Usuario
+POST http://{{host}}/api/v1/regiser
+Content-Type: application/json
+
+{
+    "email":    "usuario@correo.com",
+    "password": "tu_contraseña"
 }
 
 ### Obtener todos los posts
@@ -33,45 +51,33 @@ Accept: application/json
 GET http://{{host}}/api/v1/posts/search?author=69b1da3edbbee47f87a48583
 Accept: application/json
 
-### Eliminar todos los posts
-DELETE http://{{host}}/api/v1/admin/posts
-Accept: application/json
-Authorization: {{admin_token}}
+
+############################## Cliente ###################################
+
+### Crear un nuevo post
+POST http://{{host}}/api/v1/posts
+Content-Type: application/json
+Authorization: {{user_token}}
+
+{
+    "title": "Mi primer post en Go",
+    "content": "Este es el contenido del blog usando MongoDB v2",
+    "author": "Tu Nombre"
+}
+
+############################## Admin ###################################
 
 ### Eliminar un post por ID
 DELETE http://{{host}}/api/v1/admin/posts/{{delete_id}}
 Accept: application/json
 Authorization: {{admin_token}}
 
-### Nuevo Usuario
-POST http://{{host}}/api/v1/regiser
-Content-Type: application/json
-
-{
-    "email":    "usuario@correo.com",
-    "password": "tu_contraseña"
-}
+### Eliminar todos los posts
+DELETE http://{{host}}/api/v1/admin/posts
+Accept: application/json
+Authorization: {{admin_token}}
 
 ### Obtener Credenciales de Usuarios
 GET http://{{host}}/api/v1/admin/users
 Content-Type: application/json
 Authorization: {{admin_token}}
-
-### Login Admin
-POST http://{{host}}/api/v1/login
-Content-Type: application/json
-Authorization: {{admin_token}}
-
-{
-    "email":    "admin@example.com",
-    "password": "admin"
-}
-
-### Login Usuario
-POST http://{{host}}/api/v1/login
-Content-Type: application/json
-
-{
-    "email":    "usuario@correo.com",
-    "password": "tu_contraseña"
-}

@@ -1,14 +1,12 @@
 ### Variables
-@hostname = 74.220.48.0/24
+@hostname = api-blog-zq6f.onrender.com
 @port = 10000
-@host = {{hostname}}:{{port}}
+@host = {{hostname}}
 @post_id = 698e668864d28fd219b22b54
 @delete_id = 698e27cc1cbbdb505d5618b7
 @admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4YjQyNTkwNjQzMTFjMGNlOWEiLCJleHAiOjE3NzA5NDE3MTAsImlhdCI6MTc3MDkzOTkxMH0.TdrKBjvmn18E-1dHe1SIo9ClKO65H7vk1vDw3j5LeAA
 
-
-@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4NjQyNTkwNjQzMTFjMGNlOTkiLCJleHAiOjE3NzA5NDUwODEsImlhdCI6MTc3MDk0MzI4MX0.NnCbIHV235RSOa0ZqJaFnO8eQrkWTfudvSHayqwSpSk
-
+@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzMyNjY3MjIsImlhdCI6MTc3MzI2NDkyMn0.q6rgSh4XQArnc0OMPiTj3aMSnjVH_nuGLYvOF8Q8dmA
 
 ### Crear un nuevo post
 POST http://{{host}}/api/v1/posts
@@ -34,7 +32,7 @@ GET http://{{host}}/api/v1/posts/search?title=Mi%20primer%20post%20en%20Go
 Accept: application/json
 
 ###Obtener posts con author
-GET http://{{host}}/api/v1/posts/search?author=698b51864259064311c0ce99
+GET http://{{host}}/api/v1/posts/search?author=69b1da3edbbee47f87a48583
 Accept: application/json
 
 ### Eliminar todos los posts

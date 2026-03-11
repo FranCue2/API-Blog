@@ -1,6 +1,6 @@
 ### Variables
-@hostname = 74.220.48.0/24
-@port = 10000
+@hostname = localhost
+@port = 8080
 @host = {{hostname}}:{{port}}
 @post_id = 698e668864d28fd219b22b54
 @delete_id = 698e27cc1cbbdb505d5618b7

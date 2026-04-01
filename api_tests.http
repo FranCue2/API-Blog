@@ -6,7 +6,6 @@
 ### Login Admin
 POST http://{{host}}/api/v1/login
 Content-Type: application/json
-Authorization: {{admin_token}}
 
 {
     "email":    "admin@example.com",

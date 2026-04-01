@@ -28,7 +28,7 @@ func setupPublicRoutes(r *gin.Engine) {
 	
 		public.GET("/posts/search", handlers.SearchPosts)
 	
-		public.POST("/regiser", handlers.RegisterUser)
+		public.POST("/register", handlers.RegisterUser)
 
 		public.POST("/login", handlers.Login)
 	}

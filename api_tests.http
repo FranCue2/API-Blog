@@ -27,7 +27,7 @@ Content-Type: application/json
 ############################# Sin Logueo #################################
 
 ### Nuevo Usuario
-POST http://{{host}}/api/v1/regiser
+POST http://{{host}}/api/v1/register
 Content-Type: application/json
 
 {

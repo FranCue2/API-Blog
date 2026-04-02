@@ -43,13 +43,14 @@ func Login(ctx context.Context, email string, password string) (string, error) {
 	userCred, err := db.FindUserCredentialsByEmail(ctx, email)
 
 	if err != nil {
-		return "", err
+		return "", ErrInvalidInput
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(userCred.PasswordHash), []byte(password))
 
 	if err != nil {
-		return "", errors.New("contrasena incorrecta")
+		if(errors.Is(err, bcrypt.ErrMismatchedHashAndPassword)) {return "", ErrInvalidInput}
+		return "", ErrFailedToProcessPassword
 	}
 
 	return GenerateToken(userCred.ID.Hex(), userCred.Email, userCred.Role)

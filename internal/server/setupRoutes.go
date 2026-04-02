@@ -5,10 +5,14 @@ import (
 	"github.com/tu-usuario/blog-api/internal/handlers"
 	"github.com/tu-usuario/blog-api/internal/middleware"
 	"github.com/tu-usuario/blog-api/internal/models"
+	"time"
+	"github.com/gin-contrib/cors"
 )
 
 func SetupRoutes() *gin.Engine {
 	r := gin.Default()
+
+	setupCORS(r)
 
 	setupPublicRoutes(r)
 
@@ -17,6 +21,20 @@ func SetupRoutes() *gin.Engine {
 	setupAdminRoutes(r)
 
 	return r
+}
+
+
+func setupCORS(r *gin.Engine) {
+	// metodo que configura CORS para poder correr REACT sin problema de forma Local a la ves que el servidor
+	
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:5174"}, 
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 }
 
 func setupPublicRoutes(r *gin.Engine) {

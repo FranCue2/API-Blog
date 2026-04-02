@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"errors"
 	"os"
 	"time"
 
@@ -21,7 +20,7 @@ type UserClaims struct {
 
 func GenerateToken(userId string, email string, role models.Role) (string, error) {
 	if !role.IsValid() {
-		return "", errors.New("rol invalido")
+		return "", ErrInvalidRole
 	}
 
 	experationDate := time.Now().Add(constants.TokenExperitationTime)
@@ -42,7 +41,7 @@ func GenerateToken(userId string, email string, role models.Role) (string, error
 	tokenString, err := token.SignedString(jwtKey)
 
 	if err != nil {
-		return "", err
+		return "", ErrFailedToGenerateToken
 	}
 
 	return tokenString, nil
@@ -53,12 +52,12 @@ func ValidateToken(tokenString string) (*UserClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &UserClaims{}, func(token *jwt.Token) (interface{}, error) { return jwtKey, nil })
 
 	if err != nil {
-		return nil, err
+		return nil, ErrFailedToProcessToken
 	}
 
 	if claims, ok := token.Claims.(*UserClaims); ok && token.Valid {
 		return claims, nil
 	}
 
-	return nil, errors.New("token invalido")
+	return nil, ErrInvalidToken
 }

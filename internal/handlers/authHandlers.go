@@ -65,8 +65,13 @@ func Login(c *gin.Context) {
 
 	token, err := auth.Login(ctx, input.Email, input.Password)
 
-	if err != nil {
-		c.JSON(401, gin.H{"error": "Email y/o Conreasena equivocada", "mensage": err.Error()})
+	if err != nil{
+		switch {
+		case errors.Is(err, auth.ErrInvalidInput):
+			c.JSON(401, gin.H{"error": "Email y/o Conreaseña incorrecta"})
+		default:
+			c.JSON(500, gin.H{"error": "Internal error"})
+		}
 		return
 	}
 

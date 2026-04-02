@@ -1,6 +1,7 @@
 ### Variables
-@host = api-blog-zq6f.onrender.com
-@post_id = 698e668864d28fd219b22b54
+#@host = api-blog-zq6f.onrender.com
+@host = localhost:8080
+@post_id = 698e27cc1cbbdb505d5618b7
 @delete_id = 698e27cc1cbbdb505d5618b7
 @admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4YjQyNTkwNjQzMTFjMGNlOWEiLCJleHAiOjE3NzA5NDE3MTAsImlhdCI6MTc3MDkzOTkxMH0.TdrKBjvmn18E-1dHe1SIo9ClKO65H7vk1vDw3j5LeAA
 ### Login Admin
@@ -13,7 +14,7 @@ Content-Type: application/json
 }
 
 
-@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzMyNjY3MjIsImlhdCI6MTc3MzI2NDkyMn0.q6rgSh4XQArnc0OMPiTj3aMSnjVH_nuGLYvOF8Q8dmA
+@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzUwOTQ5NjMsImlhdCI6MTc3NTA5MzE2M30.XhBlAST24iPK39BFC2tVy9SVhFkSYEGnJrGywxgWyTA
 ### Login Usuario
 POST http://{{host}}/api/v1/login
 Content-Type: application/json

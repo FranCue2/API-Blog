@@ -77,10 +77,10 @@ func GetPostByID(c *gin.Context) {
 	if err != nil {
 		switch {
 		case errors.Is(err, db.ErrFailedToFindPosts):
-			c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
+			c.JSON(404, gin.H{"error": "Error al obtener la publicacion"})
 
 		case errors.Is(err, db.ErrFailedToProccessPosts):
-			c.JSON(500, gin.H{"error": "Error al procesar las publicaciones"})
+			c.JSON(500, gin.H{"error": "Error al procesar la publicacione"})
 
 		case errors.Is(err, db.ErrFailedToProcesID):
 			c.JSON(500, gin.H{"error": "Error al procesar el ID"})
@@ -91,7 +91,7 @@ func GetPostByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{"posts": post})
+	c.JSON(200, gin.H{"post": post})
 }
 
 func SearchPosts(c *gin.Context) {
@@ -107,7 +107,7 @@ func SearchPosts(c *gin.Context) {
 
 		switch {
 		case errors.Is(err, db.ErrFailedToFindPosts):
-			c.JSON(500, gin.H{"error": "Error al obtener las publicaciones"})
+			c.JSON(404, gin.H{"error": "Error al obtener las publicaciones"})
 		case errors.Is(err, db.ErrFailedToProccessPosts):
 			c.JSON(500, gin.H{"error": "Error al procesar las publicaciones"})
 		default:
@@ -126,7 +126,7 @@ func DeleteByID(c *gin.Context) {
 	id, found := c.GetQuery("id")
 
 	if !found {
-		c.JSON(500, gin.H{"error": "ID missing"})
+		c.JSON(404, gin.H{"error": "ID missing"})
 	}
 
 	err := db.DeleteWithID(ctx, id)

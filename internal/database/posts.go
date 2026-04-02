@@ -74,7 +74,7 @@ func findOnePostWithFilter(ctx context.Context, filter bson.M) (*models.PostMode
 
 	if err != nil {
 		switch{
-		case errors.Is(err, ErrFailedToFind):
+		case errors.Is(err, ErrFailedToFind) || errors.Is(err, ErrDoesNotExist):
 			return nil, ErrFailedToFindPosts
 		case errors.Is(err, ErrFailedToProccess):
 			return nil, ErrFailedToProccessPosts

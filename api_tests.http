@@ -1,9 +1,9 @@
 ### Variables
 #@host = api-blog-zq6f.onrender.com
 @host = localhost:8080
-@post_id = 698e27cc1cbbdb505d5618b7
-@delete_id = 698e27cc1cbbdb505d5618b7
-@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OThiNTE4YjQyNTkwNjQzMTFjMGNlOWEiLCJleHAiOjE3NzA5NDE3MTAsImlhdCI6MTc3MDkzOTkxMH0.TdrKBjvmn18E-1dHe1SIo9ClKO65H7vk1vDw3j5LeAA
+@post_id = 69d9654342174d4e49ac1a92
+@delete_id = 69d9661742174d4e49ac1aa0
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGQ1NDJlYmY2NTU0NjM4N2UyNGQiLCJleHAiOjE3NzU5NDA5NTAsImlhdCI6MTc3NTg1NDU1MH0.lr5jjfGjRjubDoMgbqE5Dy7IYzKRt8TR_wup4dpgM5M
 ### Login Admin
 POST http://{{host}}/api/v1/login
 Content-Type: application/json
@@ -14,7 +14,9 @@ Content-Type: application/json
 }
 
 
-@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzUwOTQ5NjMsImlhdCI6MTc3NTA5MzE2M30.XhBlAST24iPK39BFC2tVy9SVhFkSYEGnJrGywxgWyTA
+@user_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImVtYWlsIjoidXN1YXJpb0Bjb3JyZW8uY29tIiwiaXNzIjoiYmxvZy1hcGkiLCJzdWIiOiI2OWIxZGEzZWRiYmVlNDdmODdhNDg1ODMiLCJleHAiOjE3NzU5NDEyOTksImlhdCI6MTc3NTg1NDg5OX0.NdBeC4s_JG4jFMKdFn48dzJ4QJggWzfKlYTq4IRXku0
+
+
 ### Login Usuario
 POST http://{{host}}/api/v1/login
 Content-Type: application/json

@@ -26,6 +26,11 @@ func main() {
 func setUpServer() {
 	r := server.SetupRoutes()
 
+	front_host := os.Getenv("FRONT_END_HOST")
+
+	log.Println("✅ CORS allows origin: " + front_host)
+
+
 	port := os.Getenv("PORT")
 
 	host := os.Getenv("HOST")

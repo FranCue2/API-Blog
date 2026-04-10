@@ -123,17 +123,14 @@ func DeleteByID(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 10*time.Second)
 	defer cancel()
 
-	id, found := c.GetQuery("id")
-
-	if !found {
-		c.JSON(404, gin.H{"error": "ID missing"})
-	}
+	id:= c.Param("id")
 
 	err := db.DeleteWithID(ctx, id)
 
 	if err != nil {
 		error := fmt.Sprintf("Error al borrar post de id: %s", id)
 		c.JSON(500, gin.H{"error": error})
+		return
 	}
 
 	mensaje := fmt.Sprintf("Eliminado con exito al post de id: %s", id)

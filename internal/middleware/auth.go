@@ -16,7 +16,7 @@ func AuthJWT() gin.HandlerFunc{
 		claims, err := auth.ValidateToken(tokenString)
 
 		if err != nil{
-			c.AbortWithStatusJSON(401, gin.H{"error":"Sesion vencida"})
+			c.AbortWithStatusJSON(401, gin.H{"error":"Sesion vencida", "err": err})
 			return 
 		}
 

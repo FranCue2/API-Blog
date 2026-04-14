@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -50,7 +51,7 @@ func GenerateToken(userId string, email string, role models.Role) (string, error
 func ValidateToken(tokenString string) (*UserClaims, error) {
 
 	token, err := jwt.ParseWithClaims(tokenString, &UserClaims{}, func(token *jwt.Token) (interface{}, error) { return jwtKey, nil })
-
+	fmt.Printf("err: %v\n", err)
 	if err != nil {
 		return nil, ErrFailedToProcessToken
 	}

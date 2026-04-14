@@ -1,3 +1,6 @@
+
+Para correr este proyecto localmente, haz una copia del archivo .env.example, renómbralo a .env y completa los datos con tu propia base de datos.
+
 # Como usar
 
 Usar la extension REST Client de Visual Studio para poder correr las peticiones desde el archivo api_test.http

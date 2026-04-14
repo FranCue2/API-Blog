@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/tu-usuario/blog-api/internal/auth"
@@ -11,7 +12,7 @@ import (
 
 func AuthJWT() gin.HandlerFunc{
 	return func(c *gin.Context){
-		tokenString := c.GetHeader("Authorization")
+		tokenString := getTokenFromHeader(c)
 
 		claims, err := auth.ValidateToken(tokenString)
 
@@ -26,6 +27,12 @@ func AuthJWT() gin.HandlerFunc{
 
 		c.Next()
 	}
+}
+
+func getTokenFromHeader(c *gin.Context) string {
+	authHeader := c.GetHeader("Authorization")
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+	return tokenString
 }
 
 func RequireRole(requiredRole models.Role) gin.HandlerFunc{

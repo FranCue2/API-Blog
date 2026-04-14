@@ -1,0 +1,12 @@
+.git
+.gitignore
+
+
+.env
+README.md
+
+
+blog-server
+main.exe
+exec.exe
+api_tests.http

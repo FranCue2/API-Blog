@@ -44,9 +44,14 @@ func setUpServer() {
 }
 
 func loadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("⚠️ Error cargando el archivo .env con error: ", err)
+
+	if os.Getenv("APP_ENV") != "production" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("❌ Error cargando el archivo .env con error: ", err)
+		}else{
+			log.Println("✅ archivo .env cargado correctamente: ")
+		}
 	}
 }
 

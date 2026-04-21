@@ -3,10 +3,8 @@ package auth
 import (
 	"context"
 	"errors"
-	"os"
 	"time"
 
-	"github.com/tu-usuario/blog-api/internal/constants"
 	db "github.com/tu-usuario/blog-api/internal/database"
 	"github.com/tu-usuario/blog-api/internal/models"
 	"golang.org/x/crypto/bcrypt"
@@ -31,9 +29,7 @@ func SeedAdmin(email string, password string) error {
 		return err
 	}
 
-	pass := os.Getenv(constants.EnvAdminPassword)
-
-	err = CreateAdmin(ctx, email, pass)
+	err = CreateAdmin(ctx, email, password)
 
 	return err
 }

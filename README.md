@@ -1,5 +1,5 @@
 
-Para correr este proyecto localmente, haz una copia del archivo .env.example, renómbralo a .env y completa los datos con tu propia base de datos.
+Para correr este proyecto localmente, haz una copia del archivo .env.example, renómbralo a .env y completa los datos con tu propia base de datos.ex
 
 # Como usar
 

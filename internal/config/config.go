@@ -1,7 +1,6 @@
 package config
 
 import (
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -21,13 +20,15 @@ type AppConfig struct {
 	Port string
 }
 
-func Load() *AppConfig {
+func Load() (*AppConfig, error) {
 
 	isProduction := os.Getenv("APP_ENV") == "production" 
-	if (isProduction) {
-		log.Println("🚀 Modo Producción detectado: Usando variables del sistema.")
-	} else {
-		loadEnv()
+	
+	if (!isProduction){
+		err := loadEnv()
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &AppConfig{
@@ -41,7 +42,7 @@ func Load() *AppConfig {
 		FrontHost: os.Getenv("FRONT_END_HOST"),
 		Host: os.Getenv("HOST"),
 		Port: getEnvOrDefault("PORT", "8080"),
-	}
+	}, nil
 }
 
 func getEnvOrDefault(key string, defaultValue string) string{
@@ -54,11 +55,10 @@ func getEnvOrDefault(key string, defaultValue string) string{
 	return res
 }
 
-func loadEnv() {
+func loadEnv() error {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("❌ Error cargando el archivo .env con error: ", err)
-	}else{
-		log.Println("✅ archivo .env cargado correctamente: ")
+		return ErrCouldNotReadEnv
 	}
+	return nil
 }

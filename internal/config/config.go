@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -24,7 +25,7 @@ type AppConfig struct {
 func Load() *AppConfig {
 
 	isProduction := os.Getenv("APP_ENV") == "production" 
-
+	fmt.Printf("os.Getenv(\"APP_ENV\"): %v\n", os.Getenv("APP_ENV"))
 	if (isProduction) {
 		loadEnv()
 	} else {

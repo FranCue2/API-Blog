@@ -1,7 +1,7 @@
 package server
 
 import (
-	"os"
+
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -11,10 +11,10 @@ import (
 	"github.com/tu-usuario/blog-api/internal/models"
 )
 
-func SetupRoutes() *gin.Engine {
+func SetupRoutes(frontHost string) *gin.Engine {
 	r := gin.Default()
 
-	setupCORS(r)
+	setupCORS(r, frontHost)
 
 	setupPublicRoutes(r)
 
@@ -26,14 +26,11 @@ func SetupRoutes() *gin.Engine {
 }
 
 
-func setupCORS(r *gin.Engine) {
+func setupCORS(r *gin.Engine, frontHost string) {
 	// metodo que configura CORS para poder correr REACT sin problema de forma Local a la ves que el servidor
 	
-	front_host := os.Getenv("FRONT_END_HOST")
-
-	
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{front_host}, 
+		AllowOrigins:     []string{frontHost}, 
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},

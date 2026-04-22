@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 
-	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -13,8 +12,8 @@ import (
 
 var Client *mongo.Client
 
-func InitDB() error {
-	err := connectDB()
+func InitDB(uri string) error {
+	err := connectDB(uri)
 
 	if err != nil {
 		return err
@@ -25,10 +24,9 @@ func InitDB() error {
 	return err
 }
 
-func connectDB() error {
+func connectDB(uri string) error {
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	uri := os.Getenv("MONGO_URI")
 
 	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
 	opts.SetConnectTimeout(10 * time.Second)

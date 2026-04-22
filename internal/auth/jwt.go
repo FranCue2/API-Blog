@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -9,13 +8,17 @@ import (
 	"github.com/tu-usuario/blog-api/internal/models"
 )
 
-var jwtKey = []byte(os.Getenv("JWT_SECRET"))
+var jwtKey []byte
 
 type UserClaims struct {
 	Role  models.Role `json:"role"`
 	Email string      `json:"email"`
 
 	jwt.RegisteredClaims
+}
+
+func LoadJWT(key string){
+	jwtKey = []byte(key)
 }
 
 func GenerateToken(userId string, email string, role models.Role) (string, error) {

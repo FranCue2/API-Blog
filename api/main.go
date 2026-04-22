@@ -2,63 +2,26 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log"
-	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/tu-usuario/blog-api/internal/auth"
-	"github.com/tu-usuario/blog-api/internal/constants"
+	"github.com/tu-usuario/blog-api/internal/config"
 	db "github.com/tu-usuario/blog-api/internal/database"
 	"github.com/tu-usuario/blog-api/internal/server"
 )
 
 func main() {
 
-	loadEnv()
+	cfg := config.Load()
 
-	initDB()
-	seedAdmin()
+	initDB(cfg.DataBaseURI)
+	configAuth(cfg.AdminEmail, cfg.AdminPassword, cfg.JWTKey)
 
-	setUpServer()
+	setUpServer(cfg.Host, cfg.Port, cfg.FrontHost)
 }
 
-func setUpServer() {
-	r := server.SetupRoutes()
-
-	front_host := os.Getenv("FRONT_END_HOST")
-
-	log.Println("✅ CORS allows origin: " + front_host)
-
-
-	port := os.Getenv("PORT")
-
-	host := os.Getenv("HOST")
-
-	if port == "" {
-		port = "8080"
-	}
-
-	r.Run(host + ":" + port)
-	fmt.Printf("(\"Servidor corriendo en http://localhost:8080\")/n")
-}
-
-func loadEnv() {
-
-	if os.Getenv("APP_ENV") != "production" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal("❌ Error cargando el archivo .env con error: ", err)
-		}else{
-			log.Println("✅ archivo .env cargado correctamente: ")
-		}
-	}
-}
-
-
-func initDB(){
-
-	err := db.InitDB()
+func initDB(uri string){
+	err := db.InitDB(uri)
 
 	if err!= nil{
 		switch{
@@ -74,10 +37,11 @@ func initDB(){
 	log.Println("✅ Conectado a MongoDB exitosamente")
 }
 
-func seedAdmin() {
 
-	email := os.Getenv(constants.EnvAdminEmail)
-	password := os.Getenv(constants.EnvAdminPassword)
+func configAuth(email string, password string, jwtKey string) {
+
+	auth.LoadJWT(jwtKey)
+
 	err := auth.SeedAdmin(email, password)
 
 	if err != nil {
@@ -87,3 +51,14 @@ func seedAdmin() {
 	}
 }
 
+
+func setUpServer(host string, port string, frontHost string) {
+	r := server.SetupRoutes(frontHost)
+
+	log.Println("✅ CORS allows origin: " + frontHost)
+
+	err := r.Run(host + ":" + port)
+    if err != nil {
+        log.Fatalf("❌ El servidor se detuvo de forma inesperada: %v", err)
+    }
+}
